@@ -31,15 +31,23 @@ def get_tracks(category,songno,alreadyplayed,token):
         ).json()
         return response
     else:
-        track_id = alreadyplayed[0].split(',')[-1]
+        tries = 0
+        track_ids = alreadyplayed[0].split(',')
         lyrics = requests.get(
-            lyrics_baseURL+ f'track_id={track_id}&apikey={token}'
+            lyrics_baseURL+ f'track_id={track_ids[-1]}&apikey={token}'
         ).json().get('message').get('body').get('lyrics')
         keywords = get_five_words(lyrics.get('lyrics_body'),lyrics.get('lyrics_language','en'))
-        response = requests.get(
-            search_baseUrl+ f'f_has_lyrics=1&f_music_genre_id={gMap[category]}&page=1&page_size=1&q_lyrics={keywords}&apikey={token}'
-        ).json()
-        return response
+
+        while tries > 3:
+            response = requests.get(
+                search_baseUrl+ f'f_has_lyrics=1&f_music_genre_id={gMap[category]}&page=1&page_size=1&q_lyrics={keywords}&apikey={token}'
+            ).json()
+            print(response.get('message').get('body').get("track_list")[0].get("track_id") )
+            if response.get('message').get('body').get("track_list")[0].get("track_id") in track_ids:
+                tries+=1
+            else:
+                return response
+        return "Run out of Tracks", 400
     
 
 def create_app(test_config=None):
