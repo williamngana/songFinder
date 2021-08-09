@@ -10,13 +10,13 @@ This is a simple flask app that will return you tracks based on the parameters t
 
 ## Endpoints
 There is only one endpoint which is /playlist/
-required arguments 
-category(Str) -> for now the list of categories that are supported are Acoustic Blues,Chicago Blues,Blues, and Rap
-songno(int) -> this is what song on the playlist we are on
-alreadyplayed(List) -> a list of track_ids that have already been played
-token(str) -> api token
+### Required arguments 
+category(Str) -> for now the list of categories that are supported are Acoustic Blues,Chicago Blues,Blues, and Rap br\
+songno(int) -> this is what song on the playlist we are on br\
+alreadyplayed(List) -> a list of track_ids that have already been played br\
+token(str) -> api token br\
 
-### example call:
+### Example call:
 playlist?category=Blues&songno=2&alreadyplayed=75175204,50184104&token=Token :
 - this will return one song with similar lyrics to the last song just played
 
